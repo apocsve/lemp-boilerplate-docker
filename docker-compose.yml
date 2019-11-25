@@ -1,0 +1,40 @@
+version: '2'
+
+networks:
+    lemp-network:
+
+services:
+    lemp-mysql:
+        image: mysql:5.7
+        container_name: lemp-mysql
+        expose:
+            - "3306"
+        networks:
+            - lemp-network
+        volumes:
+            - ./project:/var/www/html:rw
+        env_file:
+            - .env
+        environment:
+            MYSQL_DATABASE: ${DB_NAME}
+            MYSQL_USER: ${DB_USER}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+
+    lemp-base:
+        user: root
+        build:
+            context: ./base
+            dockerfile: Dockerfile
+        container_name: lemp-base
+        restart: always
+        expose:
+            - "8080"
+        ports:
+            - "127.0.0.99:80:8080"
+        depends_on:
+            - lemp-mysql
+        networks:
+            - lemp-network
+        volumes:
+            - ./project:/var/www/html:rw
