@@ -13,6 +13,7 @@ services:
             - lemp-network
         volumes:
             - ./project:/var/www/html:rw
+            - ./db:/var/lib/mysql:rw
         env_file:
             - .env
         environment:
