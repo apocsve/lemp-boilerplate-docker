@@ -47,7 +47,6 @@ install_php_stuff()
 echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main" > /etc/apt/sources.list.d/ondrej-php.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && apt-get update && apt-get install -y --no-install-recommends \
-          php-dev \
           php-pear \
           php-memcache \
           php-memcached \
@@ -56,6 +55,8 @@ echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main" > /etc/apt/sou
           php-apcu \
           php-apcu-bc \
           php-tidy \
+          php7.3 \
+          php7.3-dev \
           php7.3-cli \
           php7.3-curl \
           php7.3-json \
@@ -89,16 +90,15 @@ echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main" > /etc/apt/sou
     && printf "\n" | pecl install mcrypt-1.0.2 \
     && printf "\n" | pecl install xdebug \
     && echo "extension=/usr/lib/php/20180731/mcrypt.so" > /etc/php/7.3/fpm/conf.d/mcrypt.ini \
-    && echo "extension=/usr/lib/php/20180731/mcrypt.so" > /etc/php/7.3/cli/conf.d/mcrypt.ini
-
-    info "Installing Composer..." 1
-    mkdir /composer-setup
-    wget https://getcomposer.org/installer -P /composer-setup
-    php /composer-setup/installer --install-dir=/usr/bin
-    mv /usr/bin/composer{.phar,}
-    composer global require hirak/prestissimo
-    composer clear-cache
-    rm -Rf /composer-setup ~/.composer
+    && echo "extension=/usr/lib/php/20180731/mcrypt.so" > /etc/php/7.3/cli/conf.d/mcrypt.ini \
+    && info "Installing Composer..." 1 \
+    && mkdir /composer-setup \
+    && wget https://getcomposer.org/installer -P /composer-setup \
+    && php /composer-setup/installer --install-dir=/usr/bin \
+    && mv /usr/bin/composer{.phar,} \
+    && composer global require hirak/prestissimo \
+    && composer clear-cache \
+    && rm -Rf /composer-setup ~/.composer 
 }
 
 create_log_dirs()
