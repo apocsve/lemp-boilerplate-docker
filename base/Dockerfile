@@ -15,6 +15,7 @@ ENV TERM=linux
 
 # Perform Installations
 COPY docker-runs.sh /root/
+RUN sed -i'' 's/archive\.ubuntu\.com/us\.archive\.ubuntu\.com/' /etc/apt/sources.list
 RUN /root/docker-runs.sh
 
 VOLUME /var/www

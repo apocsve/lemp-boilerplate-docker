@@ -20,7 +20,7 @@ main()
 
 install_common_apps()
 {
-apt-get update && apt-get install -y --no-install-recommends \
+apt-get -y update && apt-get install -y --no-install-recommends \
     apt-transport-https \
     apt-utils \
     ca-certificates \
@@ -45,7 +45,7 @@ install_php_stuff()
 {
 
 echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main" > /etc/apt/sources.list.d/ondrej-php.list \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
+    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4F4EA0AAE5267A6C \
     && apt-get update && apt-get install -y --no-install-recommends \
           php-pear \
           php-memcache \
@@ -96,8 +96,6 @@ echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main" > /etc/apt/sou
     && wget https://getcomposer.org/installer -P /composer-setup \
     && php /composer-setup/installer --install-dir=/usr/bin \
     && mv /usr/bin/composer{.phar,} \
-    && composer global require hirak/prestissimo \
-    && composer clear-cache \
     && rm -Rf /composer-setup ~/.composer 
 }
 
